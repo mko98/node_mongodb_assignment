@@ -48,8 +48,17 @@ routes.get('/recipes/:name', function(req, res) {
 // Voeg een user toe. De nieuwe info wordt gestuurd via de body van de request message.
 // Vorm van de URL: POST http://hostname:3000/api/v1/users
 //
-routes.post('/users', function(req, res) {
-
+routes.post('/recipes', function(req, res) {
+    Recipe.create({
+        name: req.body.name,
+        imageURL: req.body.imageURL,
+        description: req.body.description,
+        ingredients: req.body.ingredients
+    }, function(err, result) {
+        if (err) return res.send(err);
+        res.send(result);
+        console.log(result);
+    })
 });
 
 //
