@@ -3,25 +3,39 @@ const IngredientSchema = require('./ingredient.model');
 const Schema = mongoose.Schema;
 
 const RecipeSchema = new Schema({
-        name: String,
-        imageURL: String,
-        description: String,
-        ingredients: [IngredientSchema]
+    name: String,
+    imageURL: String,
+    description: String,
+    ingredients: [{
+        type: Schema.Types.Object,
+        ref: 'ingredient'
+    }]
+});
+        // ingredients: [IngredientSchema]
+
         // ingredients: [{
         //     ingredientname: String,
         //     amount: Number
         // }]
-}, {
-    timestamps: false
-});
-
 
 const Recipe = mongoose.model('recipe', RecipeSchema);
 
 // Add a 'dummy' recipe (every time you require this file!)
 const recipe = new Recipe({
-    name: 'Broodje', imageURL: 'testurl.com', description: 'beschrijvingtest',
-        ingredients: [{name: 'Frikandel', amount: 1}, {name:'Broodje', amount: 1} ]
-}).save();
+    name: 'Broodje Frikandel',
+    imageURL: 'testurlcom',
+    description: 'beschrijvingtest',
+    ingredients: [
+        {
+            name: "DummyNameIngredient1",
+            amount: 20
+        },
+        {
+            name: "DummyNameIngredient2",
+            amount: 6
+        }
+    ]
+}); recipe.save();
+console.log(recipe);
 
 module.exports = Recipe;

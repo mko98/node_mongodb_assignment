@@ -6,4 +6,12 @@ const IngredientSchema = new Schema({
     amount: Number
 });
 
-module.exports = IngredientSchema;
+const Ingredient = mongoose.model('ingredient', IngredientSchema);
+
+const ingredient = new Ingredient({
+    name: 'Broodje',
+    amount: 2
+}); ingredient.save();
+console.log(ingredient);
+
+module.exports = Ingredient;
