@@ -5,6 +5,7 @@ var express = require('express');
 var routes = express.Router();
 var mongodb = require('../config/mongo.db');
 var Recipe = require('../model/recipe.model');
+var Ingredient = require('../model/ingredient.model');
 
 
 routes.get('/recipes', function(req, res) {
@@ -19,6 +20,20 @@ routes.get('/recipes', function(req, res) {
                 res.status(200).json(recipes);
             }
         })
+        .catch((error) => res.status(401).json(error));
+});
+
+routes.get('/ingredients', function(req, res) {
+    res.contentType('application/json');
+    Ingredient.find({})
+        .then((ingredients) => {
+        if (ingredients.length === 0) {
+            res.status(200).json('There are no ingredients');
+        }
+        else {
+            res.status(200).json(ingredients);
+        }
+    })
         .catch((error) => res.status(401).json(error));
 });
 
@@ -37,12 +52,38 @@ routes.get('/recipes/:name', function(req, res) {
         .catch((error) => res.status(401).json(error));
 });
 
+routes.get('/ingredients/:name', function(req, res) {
+    res.contentType('application/json');
+    Ingredient.find({ name: req.params.name} )
+        .then((ingredients) => {
+            console.log(ingredients);
+            if (ingredients.length === 0) {
+                res.status(200).json('There are no ingredients');
+            }
+            else {
+                res.status(200).json(ingredients);
+            }
+        })
+        .catch((error) => res.status(401).json(error));
+});
+
 routes.post('/recipes', function(req, res) {
     Recipe.create({
         name: req.body.name,
         imageURL: req.body.imageURL,
         description: req.body.description,
         ingredients: req.body.ingredients
+    }, function(err, result) {
+        if (err) return res.send(err);
+        res.send(result);
+        console.log(result);
+    })
+});
+
+routes.post('/ingredients', function(req, res) {
+    Ingredient.create({
+        name: req.body.name,
+        amount: req.body.amount,
     }, function(err, result) {
         if (err) return res.send(err);
         res.send(result);
