@@ -3,9 +3,18 @@ const IngredientSchema = require('./ingredient.model');
 const Schema = mongoose.Schema;
 
 const RecipeSchema = new Schema({
-    name: String,
-    imageURL: String,
-    description: String,
+    name: {
+        type: String,
+        required: true
+    },
+    imageURL: {
+        type: String,
+        required: true
+    },
+    description: {
+        type: String,
+        required: true
+    },
     ingredients: [{
         type: Schema.Types.Object,
         ref: 'ingredient'
