@@ -108,14 +108,9 @@ routes.post('/ingredients', function(req, res) {
 
 // PUT (RECIPES)
 
-routes.put('/recipes/:name', function(req, res) {
-    Recipe.findOneAndUpdate({name: req.params.name},
-            {
-                name: req.body.name,
-                imageURL: req.body.imageURL,
-                description: req.body.description,
-                ingredients: req.body.ingredients
-            },
+routes.put('/recipes/:_id', function(req, res) {
+    console.log(req);
+    Recipe.findOneAndUpdate({_id: req.params._id}, req.body,
             {
                 runValidators: true
             },
